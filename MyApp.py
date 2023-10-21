@@ -1,5 +1,10 @@
+
 import streamlit as st
-import detection
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
+import numpy as np
+from PIL import Image
+import io
 
 css = """
 <style>
@@ -53,18 +58,43 @@ st.info(
     """
 )
 
-datatype = st.selectbox("", ["choose an option",
-                             "from this computer",
-                             "use camera"])
+# datatype = st.selectbox("", ["choose an option",
+#                              "from this computer",
+#                              "use camera"])
 
-image = None
-if datatype == "from this computer":
-    image = st.file_uploader("upload a file")
-elif datatype == "use camera":
-    image = st.camera_input("take a photo")
+import streamlit as st
+import tensorflow as tf
+from tensorflow import keras
+from PIL import Image
+import numpy as np
 
-if image:
-    st.image(detection.detection(image))
+# Load the model
+model = keras.models.load_model('fire_detection_model.h5')  # Replace with your model's path
+
+st.title("Image Classification App")
+st.write("Upload an image to classify")
+
+uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
+
+if uploaded_image is not None:
+    image = Image.open(uploaded_image)
+    st.image(image, caption='Uploaded Image', use_column_width=True)
+
+    # Preprocess the image
+    image = image.resize((224, 224))
+    image = np.array(image)
+    image = image / 255.0  # Normalize the image
+
+    # Make predictions
+    image = np.expand_dims(image, axis=0)  # Add a batch dimension
+    prediction = model.predict(image)
+
+    # You may have a threshold to decide the class based on the prediction
+    threshold = 0.5
+    if prediction[0][0] >= threshold:
+        st.write("Prediction: Fire")
+    else:
+        st.write("Prediction: Not Fire")
 
 
 st.info(
