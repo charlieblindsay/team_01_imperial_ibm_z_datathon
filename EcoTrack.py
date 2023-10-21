@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
+from tensorflow import keras
 
 css = """
 <style>
@@ -53,17 +54,6 @@ st.info(
     will be able to help. Try it out below:
     """
 )
-
-# datatype = st.selectbox("", ["choose an option",
-#                              "from this computer",
-#                              "use camera"])
-
-import streamlit as st
-import tensorflow as tf
-from tensorflow import keras
-from PIL import Image
-import numpy as np
-
 # Load the model
 model = keras.models.load_model('fire_detection_model.h5')  # Replace with your model's path
 
