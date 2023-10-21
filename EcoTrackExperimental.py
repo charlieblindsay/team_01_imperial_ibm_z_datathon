@@ -7,6 +7,8 @@ import cv2
 import math 
 
 
+
+
 css = """
 <style>
 
@@ -72,6 +74,7 @@ datatype = st.selectbox("", ["choose an option",
 
 video_file = None
 image = None
+image_placeholder = st.empty()
 
 if datatype == "upload image":
     image = st.file_uploader("upload a file")
@@ -81,7 +84,7 @@ elif datatype == "upload video":
     video_file = st.file_uploader("Upload a video", type=["mp4", "mov", "avi"])
 
 if (datatype == "upload image" or datatype == "use camera") and image is not None:
-    image = Image.open(uploaded_image)
+    image = Image.open(image)
     st.image(image, caption='Uploaded Image', use_column_width=True)
 
     # Preprocess the image
@@ -126,8 +129,10 @@ if video_file is not None:
                 result_text = "Prediction: Fire"
             else:
                 result_text = "Prediction: Not Fire"
+
+            image_placeholder.image(frame, caption=result_text, use_column_width=True)
             
-            st.image(frame, caption=result_text, use_column_width=True)
+            #st.image(frame, caption=result_text, use_column_width=True)
 
     cap.release()
 
