@@ -1,1 +1,4 @@
-
+keras
+tensorflow
+protobuf
+typing_extensions
