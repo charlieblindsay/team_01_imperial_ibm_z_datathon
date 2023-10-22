@@ -3,3 +3,6 @@ tensorflow
 protobuf
 typing_extensions
 opencv-python
+streamlit
+pandas
+numpy
